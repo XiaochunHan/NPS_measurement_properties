@@ -1,0 +1,256 @@
+% - Collect data for local NPS regions across all subjects in all studies
+% - Return within-subject z-scored events in local_NPS_all_events_by_region
+% - Save subject means and rescale study-wise by study MAD
+% - Return subject means in local_NPS_by_region_pos and local_NPS_by_region_neg
+% - Calculate Cohen's d effect size for each subregion/study
+% - Print a table of effect sizes
+
+% Key output variables:
+% -------------------------------------------------------------------------
+posnames = {'npspos'    'pos_vermis'    'pos_rIns'    'pos_rV1'    'pos_rThal'    'pos_lIns'    'pos_rdpIns'    'pos_rS2_Op'    'pos_dACC'};
+negnames = {'npsneg'    'neg_rLOC'    'neg_lLOC'    'neg_rpLOC'    'neg_pgACC'    'neg_lSTS'    'neg_rIPL'    'neg_PCC'};
+
+clear local_NPS_all_events_by_region local_NPS_by_region_pos local_NPS_by_region_neg d_by_study_region_pos d_by_study_region_neg NPS_subject_means
+
+% local_NPS_by_region_pos: Cell 1 x regions, each is vector of NPS subject
+% means [subjects x 1] for local pattern
+%
+% NPS_subject_means: vector of NPS subject means [subjects x 1] for whole NPS
+
+% d_by_study_region: Cell 1 x regions, each is vector of NPS cohen's d [studies x 1] for local pattern
+%
+% NPS_d_by_study: Same, for overall NPS
+
+% Functions
+% -------------------------------------------------------------------------
+
+% Rescale data for display/aggregation
+rescalefcn =  @(x) double(x) ./ mad(double(x));
+
+% Effect size function (is not affected by rescaling)
+dfun = @(x) mean(double(x)) ./ std(double(x));
+
+local_NPS_all_events_by_region.descrip = 'Single-trial estimates z-scored within participant';
+local_NPS_all_events_by_region.varnames = [posnames negnames];
+
+% Main loop
+% -------------------------------------------------------------------------
+
+% printstr('Positive regions')
+% printstr(dashes)
+
+for i = 1:length(posnames)
+    
+    % Retrieve data structure for this variable - local NPS for this region
+    Y_by_study_region = single_trial_retrieve_data_all_studies(all_data, posnames{i});
+    
+    % Get and rescale means - scale by study MAD
+    mysubjectmeans = Y_by_study_region.subject_means_by_study;
+%     mysubjectmeans = cellfun(rescalefcn, mysubjectmeans, 'UniformOutput', false);
+%    
+%     % Save for connectivity
+%     local_NPS_all_events_by_region.study_intercepts = Y_by_study_region.study_intercepts;
+%     local_NPS_all_events_by_region.subject_intercepts = Y_by_study_region.subject_intercepts;
+%     local_NPS_all_events_by_region.data(:, i) = Y_by_study_region.events_cat_zscore_within_subject;
+
+    % Save for plots, etc:
+    local_NPS_by_region_pos{i} = cat(1, mysubjectmeans{:});
+    
+    % Effect size
+    d = cellfun(dfun, mysubjectmeans, 'UniformOutput', false);
+    d = cat(1, d{:});
+    
+    d_by_study_region_pos{i} = d;
+    
+    
+    fprintf('%s\tAverage d = %3.2f\t Range =\t%3.2f\t%3.2f\n', posnames{i}, mean(d), min(d), max(d));
+    
+end
+
+% printstr('Negative regions')
+% printstr(dashes)
+
+for i = 1:length(negnames)
+    
+    % Retrieve data structure for this variable - local NPS for this region
+    Y_by_study_region = single_trial_retrieve_data_all_studies(all_data, negnames{i});
+    
+    % Get and rescale means - scale by study MAD
+    mysubjectmeans = Y_by_study_region.subject_means_by_study;
+%     mysubjectmeans = cellfun(rescalefcn, mysubjectmeans, 'UniformOutput', false);
+%    
+%     % Save for connectivity
+%     local_NPS_all_events_by_region.data(:, length(posnames) + i) = Y_by_study_region.events_cat_zscore_within_subject;
+
+    % Save for plots, etc:
+    local_NPS_by_region_neg{i} = cat(1, mysubjectmeans{:});
+    
+    % Effect size
+    d = cellfun(dfun, mysubjectmeans, 'UniformOutput', false);
+    d = cat(1, d{:});
+    
+    d_by_study_region_neg{i} = d;
+    
+    
+    fprintf('%s\tAverage d = %3.2f\t Range =\t%3.2f\t%3.2f\n', posnames{i}, mean(d), min(d), max(d));
+    
+end
+
+% printstr(dashes)
+
+% whole pattern NPS
+% -------------------------------------------------------------------------
+
+NPS_subject_means = cellfun(rescalefcn, NPS.subject_means_by_study, 'UniformOutput', false);
+
+NPS_d_by_study = cellfun(dfun, NPS_subject_means, 'UniformOutput', false);
+
+NPS_subject_means = cat(1, NPS_subject_means{:});
+
+
+%%
+function OUT =  single_trial_retrieve_data_all_studies(all_data, varname)
+% - Retrieve a variable from study_canlab_dataset cell array
+% For EVENT-LEVEL data:
+% - Calculate event-level standard error and df including "ok_trials" only, excluding NaNs and high-VIF from event-level data
+% - Return both no-NaN and ALL event-level data to permit concatenation with other variables
+% - Return z-scored data within-subject (concatenated)
+% - Concatenate events across studies for combined analysis
+%
+% INDIVIDUAL DIFFERENCES data:
+% - Calculate individual differences (person-level averages)
+% - Calculate normalized within-study ranks (rank subjects / N in study)
+% - Concatenate subject means across studies for combined analysis
+%
+% - Return a structure with all variables
+%
+% Usage:
+% OUT = single_trial_retrieve_data_all_studies(study_canlab_dataset, varname)
+%
+% Example:
+% figure; plot(VARS_CAT.Pain_mean)  % extracted pain from prep scripts
+% OUT =  single_trial_retrieve_data_all_studies(study_canlab_dataset, 'ratings');
+% hold on; plot(OUT.subject_means_cat, 'r');
+%
+% Example: individual diffs
+% PAIN =  single_trial_retrieve_data_all_studies(study_canlab_dataset, 'ratings');
+% NPS =  single_trial_retrieve_data_all_studies(study_canlab_dataset, 'NPS');
+% corr(PAIN.rank_subjectmeans_cat, NPS.rank_subjectmeans_cat)
+% r = []; for i = 1:nstudies, r(i, 1) = corr(PAIN.subject_means_by_study{i}, NPS.subject_means_by_study{i}); end
+
+[uniq_study_id, ~, study_id] = unique(all_data.study_id,'rows','stable');
+nstudies = length(uniq_study_id);
+
+OUT.nstudies = nstudies;
+OUT.studynames = uniq_study_id;
+
+event_by_study = {};
+%event_by_study_noNaNs = {}; ***omitted this - redundant***
+event_by_study_zscore = {};
+
+% Extract from canlab_datasets
+% ---------------------------------------------------------------------
+for i = 1:nstudies
+    
+    this_dat = all_data(i == study_id,:);
+    [uniq_subject_id, ~, subject_id] = unique(this_dat.subject_id,'rows','stable');
+    
+    for j = 1:length(uniq_subject_id)
+        this_subj_dat = this_dat(j == subject_id,:);
+        event_by_study{i}{j} = this_subj_dat{:,find(strcmpi(this_subj_dat.Properties.VariableNames,varname))};
+    end
+end
+
+OUT.event_by_study = event_by_study;
+
+% STE and DF
+% ---------------------------------------------------------------------
+
+clear N
+
+for i = 1:nstudies
+    
+    %event_by_study_noNaNs{i} = {};
+    event_by_study_zscore{i} = {};
+    
+    % Standard error
+    ste_by_study{i} = cellfun(@ste, event_by_study{i})';
+    
+    N(i) = length(event_by_study{i});
+    
+    for j = 1:N(i)
+        % z-score within, omit nans
+        [wasnan, eventstmp] = nanremove(event_by_study{i}{j});
+        eventstmp = zscore(eventstmp);
+        eventstmp = naninsert(wasnan, eventstmp);
+        
+        event_by_study_zscore{i}{j} = eventstmp;
+        
+        % remove nans ***omitted this - redundant***
+        %[wasnan, event_by_study_noNaNs{i}{j}] = nanremove(event_by_study{i}{j});
+    end
+    
+    % Degrees of freedom
+    df_by_study{i} = (cellfun(@length, event_by_study{i}) - 1)';  % not precise without removing NaNs, now ok, see above
+    
+end  % study
+
+%OUT.event_by_study_noNaNs = event_by_study_noNaNs;
+OUT.event_by_study_zscore = event_by_study_zscore;
+OUT.N = N;
+OUT.df_by_study = df_by_study;
+
+% INDIVIDUAL DIFFS
+% ---------------------------------------------------------------------
+for i = 1:nstudies
+    
+    OUT.subject_means_by_study{i} = cellfun(@nanmean, event_by_study{i})';
+    
+    % Within-person standard errors across trials
+    OUT.subject_stes_by_study{i} = cellfun(@ste, event_by_study{i})';
+    
+end
+
+% CONCATENATE
+% ---------------------------------------------------------------------
+eventscat = {};
+Xi = {};  % subject intercept model
+Xis = {}; % study intercept model
+
+for i = 1:nstudies
+    
+    eventscat{i} = cat(1, OUT.event_by_study{i}{:});
+
+    eventscatz{i} = cat(1, OUT.event_by_study_zscore{i}{:});
+
+    Xi{i} = intercept_model(OUT.df_by_study{i}'+1); % adjust +1 to get n trials
+    
+    Xis{i} = ones(size(eventscat{i}));
+    
+end
+
+OUT.events_cat = cat(1, eventscat{:});
+OUT.events_cat_zscore_within_subject = cat(1, eventscatz{:});
+
+OUT.subject_intercepts = blkdiag(Xi{:});
+OUT.study_intercepts = blkdiag(Xis{:});
+
+OUT.subject_means_cat = cat(1, OUT.subject_means_by_study{:});
+OUT.subject_stes_cat = cat(1, OUT.subject_stes_by_study{:});
+
+% RANKS
+% ---------------------------------------------------------------------
+for i = 1:nstudies
+    
+    OUT.rank_subjectmeans_by_study{i} = rankdata(OUT.subject_means_by_study{i}) ./ length(OUT.subject_means_by_study{i});
+    
+end
+
+OUT.rank_subjectmeans_cat = cat(1, OUT.rank_subjectmeans_by_study{:});
+
+% Rescale experiment-wise by median abs. deviation
+% ---------------------------------------------------------------------
+OUT = single_trial_rescale_multistudy_data_by_mad(OUT);
+
+
+end % function
