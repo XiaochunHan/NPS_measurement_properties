@@ -1,4 +1,4 @@
-function plugin_plot_violins_withinperson_by_study(input_cell, studynames, figname, figsavedir, studycolors)
+function dtable = plugin_plot_violins_withinperson_by_study(input_cell, studynames, figname, figsavedir, studycolors)
 %
 % Create a violin plot by study with all individual subjects, within-person relationships
 % plugin_plot_violins_withinperson_by_study(input_cell, figname)

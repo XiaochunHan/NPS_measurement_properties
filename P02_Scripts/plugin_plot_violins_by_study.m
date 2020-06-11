@@ -1,4 +1,4 @@
-function plugin_plot_violins_by_study(INPUT_STRUCT, figname, figsavedir, studycolors)
+function dtable = plugin_plot_violins_by_study(INPUT_STRUCT, figname, figsavedir, studycolors)
 %
 % Create a violin plot by study with all individual subjects
 % plugin_plot_violins_by_study(INPUT_STRUCT, figname)

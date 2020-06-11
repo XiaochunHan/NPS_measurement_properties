@@ -9,7 +9,7 @@ function [stats_table, within_b, within_r] = plugin_regress_within_subject(X, Y,
 % [stats_table, within_b, within_r] = plugin_regress_within_subject(X, Y,, figname);
 
 
-myfield = 'event_by_study'; % event_by_study or event_by_study_madscaled or event_by_study_zscore
+myfield = 'event_by_study_zscore'; % event_by_study or event_by_study_madscaled or event_by_study_zscore
 
 % Display helper functions
 % ------------------------------------------------------------------
