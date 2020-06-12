@@ -1,3 +1,9 @@
+clear;clc;
+Path = '/Users/spring/Dropbox (Dartmouth College)/Single_trial_dataset/canlab_single_trials_for_git_repo';
+figsavedir = '/Users/spring/Dropbox (Dartmouth College)/Single_trial_dataset/Figure';
+studycolors = seaborn_colors(9)';
+cd(Path);
+load('metadata_all_valid.mat');
 %% Effect size by study, for whole pattern and subregions
 nstudies = NPS.nstudies;
 

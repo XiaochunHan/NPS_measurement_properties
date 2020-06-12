@@ -7,8 +7,8 @@
 
 % Key output variables:
 % -------------------------------------------------------------------------
-posnames = {'npspos'    'pos_vermis'    'pos_rIns'    'pos_rV1'    'pos_rThal'    'pos_lIns'    'pos_rdpIns'    'pos_rS2_Op'    'pos_dACC'};
-negnames = {'npsneg'    'neg_rLOC'    'neg_lLOC'    'neg_rpLOC'    'neg_pgACC'    'neg_lSTS'    'neg_rIPL'    'neg_PCC'};
+posnames = {'npspos_corr'    'pos_vermis_corr'    'pos_rIns_corr'    'pos_rV1_corr'    'pos_rThal_corr'    'pos_lIns'    'pos_rdpIns'    'pos_rS2_Op'    'pos_dACC'};
+negnames = {'npsneg_corr'    'neg_rLOC_corr'    'neg_lLOC'    'neg_rpLOC'    'neg_pgACC'    'neg_lSTS'    'neg_rIPL'    'neg_PCC'};
 
 clear local_NPS_all_events_by_region local_NPS_by_region_pos local_NPS_by_region_neg d_by_study_region_pos d_by_study_region_neg NPS_subject_means
 
@@ -42,7 +42,7 @@ local_NPS_all_events_by_region.varnames = [posnames negnames];
 for i = 1:length(posnames)
     
     % Retrieve data structure for this variable - local NPS for this region
-    Y_by_study_region = single_trial_retrieve_data_all_studies(all_data, posnames{i});
+    Y_by_study_region = single_trial_retrieve_data_all_studies(all_data_selected, posnames{i});
     
     % Get and rescale means - scale by study MAD
     mysubjectmeans = Y_by_study_region.subject_means_by_study;

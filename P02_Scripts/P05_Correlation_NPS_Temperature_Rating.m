@@ -408,7 +408,7 @@ end
 set(gca, 'FontSize', 18);
 xticklabels({'NPS','','SIIPS'})
 ylim([-0.5 1.5]);
-ylabel('Mean ffect size (d)'); 
+ylabel('Mean ffect size (z)'); 
 title('Mean effect sizes of NPS and SIIPS');
 legend('dot product','correlation','cosine');
 % axis tight
@@ -426,7 +426,7 @@ ehan = errorbar(1:nstudies, z_nps_corr(1:9,1), 1 ./ sqrt(NPScorr.N), 'LineStyle'
 
 set(gca, 'XTick', 1:nstudies, 'FontSize', 18);
 xlabel('Study');ylim([-0.5 1.5]);
-ylabel('Effect size (d)'); 
+ylabel('Effect size (z)'); 
 title('Effect size by study NPS correlation');
 % axis tight
 
@@ -445,7 +445,7 @@ ehan = errorbar(1:nstudies, z_siips_corr(1:9,1), 1 ./ sqrt(SIIPScorr.N), 'LineSt
 
 set(gca, 'XTick', 1:nstudies, 'FontSize', 18);
 xlabel('Study'); ylim([-0.5 1.5]);
-ylabel('Effect size (d)'); 
+ylabel('Effect size (z)'); 
 title('Effect size by study SIIPS correlation');
 % axis tight
 
