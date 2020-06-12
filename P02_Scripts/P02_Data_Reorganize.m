@@ -14,8 +14,20 @@ for i = 1:nstudies
     s = unique(this_dat.subject_id,'rows','stable');
     sub = [sub;size(s,1)];
     t = [t;size(this_dat,1)];
+    label{i} = [uniq_study_id{i},'-',num2str(size(s,1)),'S-',num2str(size(this_dat,1)),'T'];
+    
 end
+figname = 'Study distribution';
+create_figure(figname); 
+wani_pie(t, 'colors', studycolors,'labels',label, 'hole','hole_size',20000);
+axis off;
+% set(gcf,'Position',[100 100 1000 800])
 
+figsavename = strrep(figname, ' ', '_');
+figsavename = strrep(figsavename, '.', '');
+figsavefile = fullfile(figsavedir, [figsavename '.png']);
+saveas(gcf, figsavefile);
+%%
 PAIN = single_trial_retrieve_data_all_studies(all_data_selected, 'rating');
 TEMP = single_trial_retrieve_data_all_studies(all_data_selected, 'T');
 
