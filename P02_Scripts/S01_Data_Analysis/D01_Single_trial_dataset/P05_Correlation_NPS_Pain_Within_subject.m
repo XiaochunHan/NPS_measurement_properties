@@ -1,9 +1,9 @@
 clear;clc;
 Path = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/canlab_single_trials_for_git_repo';
 figsavedir = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/Figure';
-studycolors = seaborn_colors(9)';
+studycolors = seaborn_colors(8)';
 cd(Path);
-load('metadata_all_NPS_complete.mat');
+load('metadata_all_NPS_complete_exclude_nsf.mat');
 NPS = single_trial_retrieve_data_all_studies(all_data, 'nps');
 PAIN = single_trial_retrieve_data_all_studies(all_data, 'rating');
 %%
@@ -24,14 +24,14 @@ plugin_scatterplot_by_study_withinsubjects(X, Y, xname, yname, figname, figsaved
 figname = 'Pain within-person correlation with NPS violins';
 NPS_main_effect = plugin_plot_violins_withinperson_by_study(within_r_nps, X.studynames, figname, figsavedir, studycolors);
 %%
-within_r_temp = cat(1,within_r_nps{:});
+within_r_pain = cat(1,within_r_nps{:});
 for s = 1:length(NPS.studynames)
     names{s}((1:length(NPS.subject_means_by_study_rescale{s})),1) = deal(NPS.studynames(s,1));
 end
 names = cat(1,names{:});
-mean_data = table(names,within_r_temp, 'VariableNames',{'study','within_r_pain'}); 
+mean_data = table(names,within_r_pain, 'VariableNames',{'study','within_r_pain'}); 
 cd('../behavior')
-writetable(mean_data, 'NPS_within_r_pain.csv');
+writetable(mean_data, 'NPS_within_r_pain_exclude_nsf.csv');
 %% Plot relationships between Pain and NPS_corr
 
 X = PAIN;

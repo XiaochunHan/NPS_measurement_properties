@@ -3,7 +3,7 @@ library(ggplot2)
 library(plotrix)
 library(ggpubr)
 
-file = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/behavior/NPS_between_r_pain.csv'
+file = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/behavior/NPS_between_r_pain_nsf.csv'
 my_data = read.csv(file,header=TRUE)
 
 # colors settings
@@ -23,8 +23,8 @@ ds6 <- my_data[my_data$study == "ie2",]
 p6<-ggplot(ds6,aes(x=pain,y=nps)) + geom_point(alpha = 0.8, color = col, size = 2) + geom_smooth(method=lm , size = 1, color=col, se=TRUE) + theme(panel.background = element_rect(fill = "transparent"), axis.line = element_line(size = 0.5, colour = "black"), axis.ticks = element_line(size = 0.5, colour = "black"))
 ds7 <- my_data[my_data$study == "ilcp",]
 p7<-ggplot(ds7,aes(x=pain,y=nps)) + geom_point(alpha = 0.8, color = col, size = 2) + geom_smooth(method=lm , size = 1, color=col, se=TRUE) + theme(panel.background = element_rect(fill = "transparent"), axis.line = element_line(size = 0.5, colour = "black"), axis.ticks = element_line(size = 0.5, colour = "black"))
-ds8 <- my_data[my_data$study == "nsf",]
-p8<-ggplot(ds8,aes(x=pain,y=nps)) + geom_point(alpha = 0.8, color = col, size = 2) + geom_smooth(method=lm , size = 1, color=col, se=TRUE) + theme(panel.background = element_rect(fill = "transparent"), axis.line = element_line(size = 0.5, colour = "black"), axis.ticks = element_line(size = 0.5, colour = "black"))
+#ds8 <- my_data[my_data$study == "nsf",]
+#p8<-ggplot(ds8,aes(x=pain,y=nps)) + geom_point(alpha = 0.8, color = col, size = 2) + geom_smooth(method=lm , size = 1, color=col, se=TRUE) + theme(panel.background = element_rect(fill = "transparent"), axis.line = element_line(size = 0.5, colour = "black"), axis.ticks = element_line(size = 0.5, colour = "black"))
 ds9 <- my_data[my_data$study == "scebl",]
 p9<-ggplot(ds9,aes(x=pain,y=nps)) + geom_point(alpha = 0.8, color = col, size = 2) + geom_smooth(method=lm , size = 1, color=col, se=TRUE) + theme(panel.background = element_rect(fill = "transparent"), axis.line = element_line(size = 0.5, colour = "black"), axis.ticks = element_line(size = 0.5, colour = "black"))
 

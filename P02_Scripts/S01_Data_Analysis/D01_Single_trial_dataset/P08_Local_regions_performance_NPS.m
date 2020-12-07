@@ -3,7 +3,7 @@ Path = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_tri
 figsavedir = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/Figure';
 studycolors = seaborn_colors(9)';
 cd(Path);
-load('metadata_all_NPS_complete.mat');
+load('metadata_all_NPS_complete_exclude_nsf.mat');
 NPS = single_trial_retrieve_data_all_studies(all_data, 'nps');
 PAIN = single_trial_retrieve_data_all_studies(all_data, 'rating');
 TEMP = single_trial_retrieve_data_all_studies(all_data, 'T');
@@ -13,7 +13,7 @@ variableNames = {'nps','pos_nps','pos_vermis','pos_rIns','pos_rV1','pos_rThal','
 d_all = [cat(1,NPS_d_by_study{:}),cat(2,nps_d_by_study_region_pos{:}),cat(2,nps_d_by_study_region_neg{:})];
 table_all = array2table(d_all, 'VariableNames', variableNames);
 cd('../behavior')
-writetable(table_all, 'NPS_local_mean_response_effect_size.csv');
+writetable(table_all, 'NPS_local_mean_response_effect_size_exclude_nsf.csv');
 %% Pain signature mean response
 
 figname = 'NPS local regions Effect size stim vs. baseline';
@@ -98,7 +98,7 @@ variableNames = {'nps','pos_nps','pos_vermis','pos_rIns','pos_rV1','pos_rThal','
 d_temp_all = [d_nps, d_pos_all, d_neg_all];
 table_all = array2table(d_temp_all, 'VariableNames', variableNames);
 cd('../behavior')
-writetable(table_all, 'NPS_local_within_temp_effect_size.csv');
+writetable(table_all, 'NPS_local_within_temp_effect_size_exclude_nsf.csv');
 
 %%
 mean_d_nps = mean(d_nps);
@@ -177,7 +177,7 @@ variableNames = {'nps','pos_nps','pos_vermis','pos_rIns','pos_rV1','pos_rThal','
 d_pain_all = [d_nps, d_pos_all, d_neg_all];
 table_all = array2table(d_pain_all, 'VariableNames', variableNames);
 cd('../behavior')
-writetable(table_all, 'NPS_local_within_pain_effect_size.csv');
+writetable(table_all, 'NPS_local_within_pain_effect_size_exclude_nsf.csv');
 
 %%
 mean_d_nps = mean(d_nps);
@@ -229,18 +229,18 @@ d_neg_all = [];
 for p = 1:length(nps_posnames)
     Y = local_NPS_all_events_by_region.nps_posnames{p};
     stats_table_npspos = plugin_regress_within_subject(X, Y, figname);
-    d_npspos = r2d(stats_table_npspos.between_person_r);
+    d_npspos = r2d(stats_table_npspos.between_person_r(1:9));
     d_pos_all = [d_pos_all,d_npspos];
-    d_npspos_mean(p,1) = d_npspos(10,1);
-    d_npspos_ste(p,1) = ste(d_npspos(1:9,1));
+    d_npspos_mean(p,1) = d_npspos(9,1);
+    d_npspos_ste(p,1) = ste(d_npspos(1:8,1));
 end
 for p = 1:length(nps_negnames)
     Y = local_NPS_all_events_by_region.nps_negnames{p};
     stats_table_npsneg = plugin_regress_within_subject(X, Y, figname);
     d_npsneg = r2d(stats_table_npsneg.between_person_r(1:9));
     d_neg_all = [d_neg_all,d_npsneg];
-    d_npsneg_mean(p,1) = d_npsneg(10,1);
-    d_npsneg_ste(p,1) = ste(d_npsneg(1:9,1));
+    d_npsneg_mean(p,1) = d_npsneg(9,1);
+    d_npsneg_ste(p,1) = ste(d_npsneg(1:8,1));
 end
 
 Y = NPS;
@@ -252,7 +252,7 @@ variableNames = {'nps','pos_nps','pos_vermis','pos_rIns','pos_rV1','pos_rThal','
 d_pain_all = [d_nps, d_pos_all, d_neg_all];
 table_all = array2table(d_pain_all, 'VariableNames', variableNames);
 cd('../behavior')
-writetable(table_all, 'NPS_local_between_pain_effect_size.csv');
+writetable(table_all, 'NPS_local_between_pain_effect_size_exclude_nsf.csv');
 
 %%
 d_nps_mean = d_nps(10,1);

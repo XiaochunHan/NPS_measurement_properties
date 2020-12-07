@@ -1,9 +1,9 @@
 clear;clc;close all;
 Path = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/canlab_single_trials_for_git_repo';
 figsavedir = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/Figure';
-studycolors = seaborn_colors(9)';
+studycolors = seaborn_colors(8)';
 cd(Path);
-load('metadata_all_NPS_complete.mat');
+load('metadata_all_NPS_complete_exclude_nsf.mat');
 NPS = single_trial_retrieve_data_all_studies(all_data, 'nps');
 PAIN = single_trial_retrieve_data_all_studies(all_data, 'rating');
 %%
@@ -15,7 +15,7 @@ end
 names = cat(1,names{:});
 mean_data = table(names,nps_mean,pain_mean, 'VariableNames',{'study','nps','pain'}); 
 cd('../behavior')
-writetable(mean_data, 'NPS_between_r_pain.csv');
+writetable(mean_data, 'NPS_between_r_pain_exclude_nsf.csv');
 %%
 NPScorr = single_trial_retrieve_data_all_studies(all_data_selected, 'nps_corr');
 NPScosine = single_trial_retrieve_data_all_studies(all_data_selected, 'nps_cosine');

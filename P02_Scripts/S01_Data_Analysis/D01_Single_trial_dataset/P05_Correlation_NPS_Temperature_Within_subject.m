@@ -3,7 +3,7 @@ Path = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_tri
 figsavedir = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/Figure';
 studycolors = seaborn_colors(9)';
 cd(Path);
-load('metadata_all_NPS_complete.mat');
+load('metadata_all_NPS_complete_exclude_nsf.mat');
 NPS = single_trial_retrieve_data_all_studies(all_data, 'nps');
 TEMP = single_trial_retrieve_data_all_studies(all_data, 'T');
 %%
@@ -32,7 +32,7 @@ end
 names = cat(1,names{:});
 mean_data = table(names,within_r_temp, 'VariableNames',{'study','within_r_temp'}); 
 cd('../behavior')
-writetable(mean_data, 'NPS_within_r_temp.csv');
+writetable(mean_data, 'NPS_within_r_temp_exclude_nsf.csv');
 %% Plot relationships between temperature and NPS_corr
 
 X = TEMP;
