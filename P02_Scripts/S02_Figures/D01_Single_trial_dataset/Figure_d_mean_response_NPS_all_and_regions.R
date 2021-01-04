@@ -45,74 +45,17 @@ for (b in 1:16){
   summary_value$mean[b] = mean(Org$d[((b-1)*8+1):((b-1)*8+8)])
   summary_value$se[b] = sd(Org$d[((b-1)*8+1):((b-1)*8+8)])/sqrt(8)
 }
-sum_pos<-summary_value[2:9,]
-sum_neg<-summary_value[10:16,]
-sort_pos<-sum_pos[with(sum_pos, order(-mean)), ]
-sort_neg<-sum_neg[with(sum_neg, order(-mean)), ]
 
-# NPS and rIns
-t1 <- Org[(Org$brain == 'NPS' | Org$brain == 'rIns'),]
-test1<-t.test(d~brain,data = t1, paired = TRUE)
+Region <- data.frame(unique(Org$brain))
+t_value <- data.frame()
+p_value <- data.frame()
+for (r in 2:length(Region$unique.Org.brain.)){
+  t <- Org[(Org$brain == Region$unique.Org.brain.[1] | Org$brain == Region$unique.Org.brain.[r]),]
+  test<-t.test(d~brain,data = t, paired = TRUE)
+  t_value <- c(t_value, test$statistic)
+  p_value <- c(p_value, test$p.value)
+}
 
-# NPS and rdpIns
-t2 <- Org[(Org$brain == 'NPS' | Org$brain == 'rdpIns'),]
-test2<-t.test(d~brain,data = t2, paired = TRUE)
-
-# NPS and rS2
-t3 <- Org[(Org$brain == 'NPS' | Org$brain == 'rS2'),]
-test3<-t.test(d~brain,data = t3, paired = TRUE)
-
-# NPS and lIns
-t4 <- Org[(Org$brain == 'NPS' | Org$brain == 'lIns'),]
-test4<-t.test(d~brain,data = t4, paired = TRUE)
-
-# NPS and dACC
-t5 <- Org[(Org$brain == 'NPS' | Org$brain == 'dACC'),]
-test5<-t.test(d~brain,data = t5, paired = TRUE)
-
-# NPS and rThal
-t6 <- Org[(Org$brain == 'NPS' | Org$brain == 'rThal'),]
-test6<-t.test(d~brain,data = t6, paired = TRUE)
-
-# NPS and vermis
-t7 <- Org[(Org$brain == 'NPS' | Org$brain == 'vermis'),]
-test7<-t.test(d~brain,data = t7, paired = TRUE)
-
-# NPS and rV1
-t8 <- Org[(Org$brain == 'NPS' | Org$brain == 'rV1'),]
-test8<-t.test(d~brain,data = t8, paired = TRUE)
-
-# NPS and rIPL
-t9 <- Org[(Org$brain == 'NPS' | Org$brain == 'rIPL'),]
-test9<-t.test(d~brain,data = t9, paired = TRUE)
-
-# NPS and lLOC
-t10 <- Org[(Org$brain == 'NPS' | Org$brain == 'lLOC'),]
-test10<-t.test(d~brain,data = t10, paired = TRUE)
-
-# NPS and rpLOC
-t11 <- Org[(Org$brain == 'NPS' | Org$brain == 'rpLOC'),]
-test11<-t.test(d~brain,data = t11, paired = TRUE)
-
-# NPS and rLOC
-t12 <- Org[(Org$brain == 'NPS' | Org$brain == 'rLOC'),]
-test12<-t.test(d~brain,data = t12, paired = TRUE)
-
-# NPS and pgACC
-t13 <- Org[(Org$brain == 'NPS' | Org$brain == 'pgACC'),]
-test13<-t.test(d~brain,data = t13, paired = TRUE)
-
-# NPS and PCC
-t14 <- Org[(Org$brain == 'NPS' | Org$brain == 'PCC'),]
-test14<-t.test(d~brain,data = t14, paired = TRUE)
-
-# NPS and lSTS
-t15 <- Org[(Org$brain == 'NPS' | Org$brain == 'lSTS'),]
-test15<-t.test(d~brain,data = t15, paired = TRUE)
-
-t_value <- c(test1$statistic,test2$statistic,test3$statistic,test4$statistic,test5$statistic,test6$statistic,test7$statistic,test8$statistic,test9$statistic,test10$statistic,test11$statistic,test12$statistic,test13$statistic,test14$statistic,test15$statistic)
-p_value <- c(test1$p.value,test2$p.value,test3$p.value,test4$p.value,test5$p.value,test6$p.value,test7$p.value,test8$p.value,test9$p.value,test10$p.value,test11$p.value,test12$p.value,test13$p.value,test14$p.value,test15$p.value)
-
-p.adjust(p_value,'fdr')
+p_adjust <- data.frame(p.adjust(p_value,'fdr'))
 
 
