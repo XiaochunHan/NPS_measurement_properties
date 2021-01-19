@@ -9,7 +9,7 @@ load('metadata_all_NPS_complete_exclude_nsf.mat');
 nstudies = length(uniq_study_id);
 sub = [];
 t = [];
-for i = 1:nstudies
+for i = 3%1:nstudies
     this_dat = all_data(i == study_id,:);
     s = unique(this_dat.subject_id,'rows','stable');
     sub = [sub;size(s,1)];
