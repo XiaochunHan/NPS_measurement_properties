@@ -3,7 +3,7 @@ library(ggplot2)
 library(plotrix)
 library(tidyr)
 
-file = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/behavior/ICC_all_and_regions_exclude_nsf.csv'
+file = '/Users/spring/Documents/Research/Reliability_NPS/P00_Raw/D01_Single_trial_dataset/ICC_all_and_regions_exclude_nsf.csv'
 my_data = read.csv(file,header=TRUE)
 
 # colors settings
@@ -32,8 +32,8 @@ data_summary <- function(x) {
   return(c(y=mu,ymin=sigma1,ymax=sigma2))
 }
 
-setwd('/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/Manuscript/Figures')
-tiff("NPS_ICC_subregions_exclude_nsf.tiff",units="in",width = 12,height = 8,res = 300)
+setwd('/Users/spring/Documents/Research/Reliability_NPS/P03_Figures')
+png("NPS_ICC_subregions_exclude_nsf.png",units="in",width = 12,height = 8,res = 300)
 p<-ggplot(Org,aes(x=brain,y=icc, colour = factor(brain))) + geom_hline(yintercept=0.4,size=0.5,linetype = "dashed") + geom_hline(yintercept=0.6,size=0.5,linetype = "dashed") + geom_hline(yintercept=0.75,size=0.5,linetype = "dashed")
 p + scale_colour_manual(values = c(pain,nps,npspos,npspos,npspos,npspos,npspos,npspos,npspos,npspos,npsneg,npsneg,npsneg,npsneg,npsneg,npsneg,npsneg)) + stat_summary(fun.data = data_summary,position=position_dodge(0.7),size = 1) + geom_point(alpha = 0.8, size = 2, position=position_jitterdodge(jitter.width = 1,dodge.width = 0.7)) + theme(panel.background = element_rect(fill = "transparent"), axis.line = element_line(size = 0.5, colour = "black"), axis.ticks = element_line(size = 0.5, colour = "black"))+coord_cartesian(ylim=c(0,1))+scale_y_continuous(breaks = c(0,0.4,0.6,0.75,1))
 dev.off()
