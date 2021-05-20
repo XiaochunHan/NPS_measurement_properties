@@ -1,9 +1,10 @@
 clear;clc;
-Path = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/canlab_single_trials_for_git_repo';
-figsavedir = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/Figure';
+addpath(genpath('/Users/spring/Documents/Research/Reliability_NPS/P02_Scripts/S01_Data_Analysis/D01_Single_trial_dataset'));
+Path = '/Users/spring/Documents/Research/Reliability_NPS/P00_Raw/D01_Single_trial_dataset';
+figsavedir = '/Users/spring/Documents/Research/Reliability_NPS/P03_Figures';
 studycolors = seaborn_colors(8)';
 cd(Path);
-load('metadata_all_NPS_complete_exclude_nsf.mat');
+load('metadata_all_NPS_complete_exclude_nsf_bmrk5pain_93.mat');
 NPS = single_trial_retrieve_data_all_studies(all_data, 'nps');
 rescale = cat(1,NPS.subject_means_by_study_rescale{:});
 for s = 1:length(NPS.studynames)
@@ -11,8 +12,8 @@ for s = 1:length(NPS.studynames)
 end
 names = cat(1,names{:});
 mean_data = table(names,rescale, 'VariableNames',{'study','rescale_mean'}); 
-cd('../behavior')
-writetable(mean_data, 'NPS_mean_response_exclude_nsf.csv');
+% cd('../behavior')
+writetable(mean_data, 'NPS_mean_response_exclude_nsf_bmrk5pain_93.csv');
 %%
 NPScorr = single_trial_retrieve_data_all_studies(all_data, 'nps_corr');
 NPScosine = single_trial_retrieve_data_all_studies(all_data, 'nps_cosine');
@@ -39,7 +40,7 @@ figname = 'NPS Effect size stim vs. baseline by study';
 create_figure(figname,1,2)
 
 dfun = @(x) mean(x) ./ std(x);
-d_nps = cellfun(dfun, NPScorr.subject_means_by_study, 'UniformOutput', false);
+d_nps = cellfun(dfun, NPS.subject_means_by_study, 'UniformOutput', false);
 d_nps = cat(1, d_nps{:});
 subplot(1,2,2);
 clear han

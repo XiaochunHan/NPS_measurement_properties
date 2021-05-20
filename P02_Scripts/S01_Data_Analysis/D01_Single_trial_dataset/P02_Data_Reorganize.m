@@ -1,15 +1,15 @@
 clear;clc;
-Path = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/canlab_single_trials_for_git_repo';
-figsavedir = '/Users/spring/Dropbox (Dartmouth College)/Single_trial_dataset/Figure';
+Path = '/Users/spring/Documents/Research/Reliability_NPS/P00_Raw/D01_Single_trial_dataset';
+figsavedir = '/Users/spring/Documents/Research/Reliability_NPS/P03_Figures';
 studycolors = seaborn_colors(8)';
 cd(Path);
-load('metadata_all_NPS_complete_exclude_nsf.mat');
+load('metadata_all_NPS_complete_exclude_nsf_bmrk5pain_93.mat');
 
 [uniq_study_id, ~, study_id] = unique(all_data.study_id,'rows','stable');
 nstudies = length(uniq_study_id);
 sub = [];
 t = [];
-for i = 3%1:nstudies
+for i = 1:nstudies
     this_dat = all_data(i == study_id,:);
     s = unique(this_dat.subject_id,'rows','stable');
     sub = [sub;size(s,1)];

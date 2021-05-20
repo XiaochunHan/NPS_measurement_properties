@@ -1,9 +1,10 @@
 clear;clc;
-Path = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/canlab_single_trials_for_git_repo';
-figsavedir = '/Users/spring/Dropbox (Dartmouth College)/NPS_Reliability/D01_Single_trial_dataset/Figure';
+addpath(genpath('/Users/spring/Documents/Research/Reliability_NPS/P02_Scripts/S01_Data_Analysis/D01_Single_trial_dataset'));
+Path = '/Users/spring/Documents/Research/Reliability_NPS/P00_Raw/D01_Single_trial_dataset';
+figsavedir = '/Users/spring/Documents/Research/Reliability_NPS/P03_Figures';
 studycolors = seaborn_colors(9)';
 cd(Path);
-load('metadata_all_NPS_complete_exclude_nsf.mat');
+load('metadata_all_NPS_complete_exclude_nsf_bmrk5pain_93.mat');
 NPS = single_trial_retrieve_data_all_studies(all_data, 'nps');
 TEMP = single_trial_retrieve_data_all_studies(all_data, 'T');
 %%
@@ -31,8 +32,8 @@ for s = 1:length(NPS.studynames)
 end
 names = cat(1,names{:});
 mean_data = table(names,within_r_temp, 'VariableNames',{'study','within_r_temp'}); 
-cd('../behavior')
-writetable(mean_data, 'NPS_within_r_temp_exclude_nsf.csv');
+% cd('../behavior')
+writetable(mean_data, 'NPS_within_r_temp_exclude_nsf_bmrk5pain_93.csv');
 %% Plot relationships between temperature and NPS_corr
 
 X = TEMP;
