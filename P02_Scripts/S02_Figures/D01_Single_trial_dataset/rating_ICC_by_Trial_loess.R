@@ -103,10 +103,10 @@ abline(h = 0.75, col = "black",lty = 2, lwd = 3)
 #lines(c(5,5,5,5), c(-0.5,0,0.5,1),col="black", lwd=3)
 
 # dot of RTNF
-points(x=15, y = 0.88, col = "#BF7FBA", pch = 16,cex=6)
+points(x=15, y = 0.88, col = "#BF7FBA", pch = 16,cex=10)
 #text(locator(), labels = "RTNF")
 # dot of OLP4CBP
-points(x=2.5, y = 0.26, col = "#96AFCC", pch = 16,cex=6)
+points(x=2.5, y = 0.26, col = "#96AFCC", pch = 16,cex=10)
 #text(locator(), labels = "OLP4CBP")
 
 # add legend
