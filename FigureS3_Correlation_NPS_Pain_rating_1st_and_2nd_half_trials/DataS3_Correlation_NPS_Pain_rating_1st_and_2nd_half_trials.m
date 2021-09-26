@@ -3,6 +3,7 @@ addpath(genpath('./Osf_data'));
 addpath(genpath('./Utils'));
 addpath(genpath('./MATLAB/CanlabCore'));
 dataFile = which('Single_trial_Study1-8.csv');
+dFile = 
 savedir = './FigureS3_Correlation_NPS_Pain_rating_1st_and_2nd_half_trials';
 all_data = readtable(dataFile);
 %%
