@@ -1,6 +1,7 @@
 clear;clc;
 addpath(genpath('./Osf_data'));
 addpath(genpath('./Utils'));
+addpath(genpath('./MATLAB/CanlabCore'));
 dataFile = which('Single_trial_Study1-8.csv');
 savedir = './Figure1B_NPS_four_effect_size';
 all_data = readtable(dataFile);
@@ -39,3 +40,5 @@ d_all = [d_mean,d_temp_within,d_pain_within,d_pain_between];
 d = array2table(d_all,'VariableNames',{'mean_response','withinSub_corr_temp','withinSub_corr_pain','betweenSub_corr_pain'});
 cd(savedir)
 writetable(d, 'Four_effect_size.csv');
+
+fprintf('Done!\n');

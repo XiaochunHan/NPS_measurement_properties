@@ -57,7 +57,7 @@ weight = cellfun(@length,mean_by_study);
 weight(weight<10) = 0;
 icc_mean = nansum(icc(:,1:8).*sqrt(weight(:,1:8)),2)./sum(sqrt(weight(:,1:8)),2);
 for i = 1:length(icc_mean)
-    icc_se(i,1) = nanstd(icc(i,1:8),sqrt(weight(i,1:8)))/sqrt(sum(weight(i,1:8)~=0,2));
+    icc_se(i,1) = nanstd2(icc(i,1:8),sqrt(weight(i,1:8)))/sqrt(sum(weight(i,1:8)~=0,2));
 end
 end
 
