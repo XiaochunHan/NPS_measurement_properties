@@ -12,4 +12,4 @@ This repository contains codes for the analyses and figures in the paper which h
 
 ### Authors
 * Correspondence: Tor D. Wager (Tor.D.Wager@Dartmouth.edu)
-* Or you could also contact with me: Xiaochun Han (Xiaochun.Han@Dartmouth.edu)
+* You could also contact with me: Xiaochun Han (Xiaochun.Han@Dartmouth.edu)
