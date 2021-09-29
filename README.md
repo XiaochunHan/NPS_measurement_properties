@@ -9,7 +9,8 @@ This repository contains codes for the analyses and figures in the paper which h
 
 ### Source data
 * The source data for all analyses and figures is available [here on the osf](https://osf.io/v9px7/). After downloading these files, you could save them in a folder named by `Osf_data` and run the codes.
+* The NPS maps, including `weights_NSF_grouppred_cvpcr.img` and `weights_NSF_grouppred_cvpcr_FDR05.img`, are available in the repository of [MaskPrivate](https://github.com/canlab/MasksPrivate) or by request to Prof. Tor D. Wager (Tor.D.Wager@Dartmouth.edu).
 
 ### Authors
 * Correspondence: Tor D. Wager (Tor.D.Wager@Dartmouth.edu)
-* You could also contact with me: Xiaochun Han (Xiaochun.Han@Dartmouth.edu)
+* You could also contact with Xiaochun Han (Xiaochun.Han@Dartmouth.edu)
