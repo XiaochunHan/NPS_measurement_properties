@@ -29,3 +29,10 @@ cd(savedir);
 writetable(mean_data, 'NPS_within_r_temp.csv');
 
 fprintf('Done!\n');
+%% Correlation between within_r_temp and temp range
+for s = 1:length(within_r)
+    mean_r(s) = mean(within_r{s});
+end
+mean_r_selected = mean_r(1,[1,2,3,5,6,8]);
+range_temp = [5,2,2,2,1,2];
+[r,p] = corrcoef(mean_r_selected,range_temp);
