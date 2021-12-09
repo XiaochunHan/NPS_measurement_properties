@@ -26,6 +26,12 @@ end
 
 %% Correlation between effect size and subjNum, and trialNum
 all_data = [es_data.betweenSub_corr_pain,subjNum,trialNum_mean];
-[r,p] = corrcoef(all_data);
+[r,p] = corr(all_data);
+fprintf('Correlation with subjNum\n r = %.2f; p = %.2f\n', r(1,2), p(1,2));
+fprintf('Correlation with trialNum\n r = %.2f; p = %.2f\n', r(1,3), p(1,3));
+
+%% Correlation between positive effect size and subjNum, and trialNum
+all_data = [es_data.betweenSub_corr_pain,subjNum,trialNum_mean];
+[r,p] = corr(all_data(2:8,:));
 fprintf('Correlation with subjNum\n r = %.2f; p = %.2f\n', r(1,2), p(1,2));
 fprintf('Correlation with trialNum\n r = %.2f; p = %.2f\n', r(1,3), p(1,3));
