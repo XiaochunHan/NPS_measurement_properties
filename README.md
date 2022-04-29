@@ -1,5 +1,5 @@
 # NPS measurement properties
-This repository contains codes for the analyses and figures in the paper which has been published on [biorxiv](https://www.biorxiv.org/content/10.1101/2021.05.29.445964v2) and in revision now. In this paper, we systematically examined the effect sizes and test-retest reliabiliy of a well-established multivariate brain measure that tracks pain induced by nociceptive input, the Neurologic Pain Signature (NPS), across __ten__ studies and __444__ participants. 
+This repository contains codes for the analyses and figures in the paper which has been published on __NeuroImage__ titled ["Effect sizes and test-retest reliability of the fMRI-based neurologic pain signature"](https://www.sciencedirect.com/science/article/pii/S1053811921011150). In this paper, we systematically examined the effect sizes and test-retest reliabiliy of a well-established multivariate brain measure that tracks pain induced by nociceptive input, the Neurologic Pain Signature (NPS), across __ten__ studies and __444__ participants. 
 
 ### Code
 * Each folder named by figure names (e.g., `Figure1B_NPS_four_effect_size`) contains codes to plot the corresponding figures and the underlying data analyses.
